@@ -1,9 +1,8 @@
-const userModel = require("../models/userModel");
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcryptjs");
 
-let errors=[];
+// Add your routes here
+// e.g. app.get() { ... }
 
 // Add routes for the "registration" page
 router.get("/registration", (req, res) => {
@@ -12,8 +11,14 @@ router.get("/registration", (req, res) => {
     });
 });
 
+router.get("/log-in", (req, res) => {
+    res.render("log-in", {
+        title: "log-in"
+    });
+});
+
 router.post("/registration", (req, res) => {
-    // console.log(req.body);
+    console.log(req.body);
 
     const { firstName, lastName, email, password } = req.body;
 
@@ -40,12 +45,28 @@ router.post("/registration", (req, res) => {
         passedValidation = false;
         validationMessages.lastName = "The last name should be at least 2 characters long.";
     }
-    else 
-        validationMessages.lastName = false;
+    else validationMessages.lastName = false;
 
     //email
-    var emailString = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,4}$/;
-    if (emailString.test(email)) {
+    var emailValid1 = true, emailValid2=true;
+
+    var position1=email.search('@');
+    if (position1 === -1 || position1 === 0 || position1 === email.length-1) {
+        emailValid1 = false;
+        passedValidation = false;
+    }
+
+    var position2=-1;
+    for(let i=0; i<email.length; i++) {
+        if (email[i]==='.')
+            position2=i;
+    }
+    if (position2 === -1 || position2 === 0 || position2 === email.length-1) {
+        emailValid2 = false;
+        passedValidation = false;
+    }
+
+    if (emailValid1 === true && emailValid2 === true) {
         validationMessages.email = false;
     }
     else {
@@ -53,99 +74,76 @@ router.post("/registration", (req, res) => {
     }
 
     //password
-    passwordString = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,12}$/;
-    if(passwordString.test(password)) {
-        validationMessages.password = false;
-    }
-    else {
-        passedValidation = false;
-        validationMessages.password = "password should be length 8-12 and at least with 1 UPPER CASE & 1 lower case & 1 Number & 1 Special Character";
+
+    let hasLowerCase = false;
+    let hasUpperCase = false;
+    let hasNumbers   = false;
+    let hasSpecial   = false;
+    const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+
+    for (var i=0; i<password.length; i++){
+        if (password[i]==password[i].toLowerCase() && password[i].match(/[a-z]/i)){
+          hasLowerCase = true;
+        }
+        else if (password[i]==password[i].toUpperCase() && password[i].match(/[A-Z]/i)){
+            hasUpperCase = true;
+        }
+        else if (!isNaN(password[i])) {
+            hasNumbers = true;
+        }
     }
 
+    hasSpecial = specialChars.test(password);
+
+
+    if (hasLowerCase === false || hasUpperCase === false || hasNumbers === false || hasSpecial ===false || password.trim().length < 8 || password.trim().length > 12) {
+
+        passedValidation = false;
+
+        validationMessages.password = "password should be length 8-12 and at least with 1 UPPER CASE & 1 lower case & 1 Number & 1 Special Character";
+    }
+    else validationMessages.password = false;
+
     if (passedValidation) {
-        //check if registered
-        userModel.findOne({
-            email: email
-        }) 
-        .then((user) => {
-            //if registered
-            if(user) {
-                console.log("This email is already registered!");
-                validationMessages.email = "This email is already registered!";
+
+        const sgMail = require("@sendgrid/mail");
+        sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+        const msg = {
+            to: email, //email
+            from: "wso8@myseneca.ca",
+            subject: "Welcome to David's Burger",
+            html:
+                `
+                Dear ${firstName} ${lastName}, <br>
+                <br>
+                This is a welcome message send from David's Burger. <br>
+                Welcome for your registration. <br>
+                You have registered with: <br>
+                <br>
+                Email Address: ${email}<br>
+                Password: ${password}<br>
+                <br>
+                Best Regards,<br>
+                Wai Chung, So
+                `
+        };
+
+        customer={firstName, lastName, email, password};
+
+        sgMail.send(msg)
+            .then(
+                res.redirect('/welcome')
+            )
+            .catch(err => {
+                console.log(err);
+
                 res.render("registration", {
                     title: "registration",
                     values: req.body,
                     validationMessages
                 });
-            }
-            else {
-                //if not yet registered
-                const newUser = new userModel({
-                    email: req.body.email,
-                    lastName: req.body.lastName,
-                    firstName: req.body.firstName,
-                    password: req.body.password
-                });
-
-                //send email
-                newUser.save()
-                .then((userSaved) => {
-                    console.log(`User: ${userSaved.firstName} has been Saved`);
-
-                    const sgMail = require("@sendgrid/mail");
-                    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
-                    const msg = {
-                        to: email, //email
-                        from: "wso8@myseneca.ca",
-                        subject: "Welcome to David's Burger",
-                        html:
-                            `
-                            Dear ${firstName} ${lastName}, <br>
-                            <br>
-                            This is a welcome message send from David's Burger. <br>
-                            Welcome for your registration. <br>
-                            You have registered with: <br>
-                            <br>
-                            Email Address: ${email}<br>
-                            Password: ${password}<br>
-                            <br>
-                            Best Regards,<br>
-                            Wai Chung, So
-                            `
-                    };
-
-                    sgMail.send(msg)
-                        .then(
-                            res.redirect('/welcome')
-                        )
-                        .catch(err => {
-                            console.log("Error on sendgrid: " + err);
-
-                            res.render("registration", {
-                                title: "registration",
-                                values: req.body,
-                                validationMessages
-                            });
-                        });
-                })
-                .catch((err) => {
-                    console.log(`Error: ${err} in saving the User: ${newUser.firstName}`)
-                    res.redirect("/");
-                });
-            }
-        })
-        .catch((err) => {
-            errors.push("There was Error finding users in database... " + err);
-            console.log(errors[0]);
-
-            res.render("registration", {
-                title: "registration",
-                values: req.body,
-                validationMessages,
-                errors
             });
-        })
     }
     else {
         res.render("registration", {
@@ -154,6 +152,7 @@ router.post("/registration", (req, res) => {
             validationMessages
         });
     }
+
 });
 
 module.exports = router;
