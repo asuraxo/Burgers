@@ -12,7 +12,7 @@ let errors=[];
 // Add routes for the "log-in" page
 router.get("/log-in", (req, res) => {
     //gate double log-in
-    if (res.locals.clerk || res.locals.user) { 
+    if (res.locals.clerk || res.locals.user) {
         console.log("Logged In already, Move to main page now");
         res.redirect("/");
     } else {
@@ -24,6 +24,7 @@ router.get("/log-in", (req, res) => {
 
 router.post("/log-in", (req, res) => {
 
+    console.log(req.body);
     const { email, password, logInAsClerk } = req.body;
 
     let passedValidation = true;
@@ -57,17 +58,18 @@ router.post("/log-in", (req, res) => {
         })
         .then ((user) => {
             if(user) {
-                // console.log("found user in database");
+                console.log("found user in database");
                 bcrypt.compare(req.body.password, user.password)
                 .then((isMatched) => {
                     if (isMatched) {
                         //create a new session and store the user object
                         if (logInAsClerk) {
+                            console.log("It is a clerk!");
                             req.session.clerk = user;
                             res.redirect("/clerk/list-mealkits");
                         } else {
+                            console.log("It is a user!");
                             req.session.user = user;
-                            req.session.cart = [];
                             res.redirect("/customer/cart");
                         }
 

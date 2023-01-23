@@ -5,7 +5,6 @@ const mealkitModel = require("../models/meal-kitModel");
 const renderPages = require("../models/Pages");
 const pages=renderPages.getPages();
 
-
 // Route to the default home page
 router.get("/", (req, res) => {
     res.render("home", {
@@ -21,6 +20,9 @@ router.get("/headers", (req, res) => {
 
 // Route to on-the-menu
 router.get("/on-the-menu", (req, res) => {
+    // res.render("on-the-menu", {
+    //     burgers: burgerList.getMealsByCategory()
+    // });
 
     mealkitModel.find()
     .exec()
