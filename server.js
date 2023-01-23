@@ -20,9 +20,6 @@ const session = require("express-session");
 const fileUpload = require("express-fileupload");
 const { homedir } = require("os");
 
-dotenv.config({ path: "./config/keys.env" });
-
-
 // Set up Handlebars.
 app.engine(".hbs", exphbs.engine({
     extname: ".hbs",
@@ -31,11 +28,16 @@ app.engine(".hbs", exphbs.engine({
 app.set("view engine", ".hbs");
 app.use(express.static(path.join(__dirname, "/assets")));
 
-app.use(express.urlencoded({ extended: false }));
+// Set up Body Parser.
+app.use(express.urlencoded({ extended: true }));
 
-const burgerList = require("./models/mealkit-db");
-const renderPages = require("./models/Pages");
-const pages=renderPages.getPages();
+// Set up express-upload
+app.use(fileUpload());
+
+// Set up dotenv.
+dotenv.config({ path: "./config/keys.env" });
+
+
 
 // Add your routes here
 // e.g. app.get() { ... }
