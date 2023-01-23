@@ -22,16 +22,25 @@ const { homedir } = require("os");
 
 dotenv.config({ path: "./config/keys.env" });
 
+
+// Set up Handlebars.
 app.engine(".hbs", exphbs.engine({
     extname: ".hbs",
     defaultLayout: "main"
 }));
-
 app.set("view engine", ".hbs");
+app.use(express.static(path.join(__dirname, "/assets")));
+
+// app.engine(".hbs", exphbs.engine({
+//     extname: ".hbs",
+//     defaultLayout: "main"
+// }));
+
+// app.set("view engine", ".hbs");
 
 app.use(express.urlencoded({ extended: false }));
 
-app.use(express.static(path.join(__dirname, "/assets")));
+// app.use(express.static(path.join(__dirname, "/assets")));
 
 
 const burgerList = require("./models/mealkit-db");
