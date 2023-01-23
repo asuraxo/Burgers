@@ -53,6 +53,7 @@ app.use((req, res, next) => {
         res.locals.user = req.session.user;
         res.locals.cart = req.session.cart;
     }
+    
     next();
 });
 
