@@ -14,10 +14,10 @@ const path = require("path");
 const express = require("express");
 const app = express();
 const exphbs = require("express-handlebars");
-// const mongoose = require("mongoose");
+const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-// const session = require("express-session");
-// const fileUpload = require("express-fileupload");
+const session = require("express-session");
+const fileUpload = require("express-fileupload");
 const { homedir } = require("os");
 
 dotenv.config({ path: "./config/keys.env" });
@@ -31,17 +31,7 @@ app.engine(".hbs", exphbs.engine({
 app.set("view engine", ".hbs");
 app.use(express.static(path.join(__dirname, "/assets")));
 
-// app.engine(".hbs", exphbs.engine({
-//     extname: ".hbs",
-//     defaultLayout: "main"
-// }));
-
-// app.set("view engine", ".hbs");
-
 app.use(express.urlencoded({ extended: false }));
-
-// app.use(express.static(path.join(__dirname, "/assets")));
-
 
 const burgerList = require("./models/mealkit-db");
 const renderPages = require("./models/Pages");
