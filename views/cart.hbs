@@ -1,8 +1,39 @@
 <link rel="stylesheet" href="/css/cart.css"/>
 
-<h1>Welcome</h1>
+    {{#if hasMeals}}
+        <h2>Shopping Cart</h2>
 
-<p>
-    Welcome to User's Cart page. The site is still under construction.
-    Other parts will be available soon.
-</p>
+        <p>You have Ordered: </p>
+        <table width="100%">
+            <tr>
+                <td colspan="3"></td>
+                <td colspan="2"><a class="checkout" href="/customer/check-out">check-out</a></td>
+                <td colspan="2"><h4><i>Total: {{cartTotal}}</i></h4></td>
+            </tr>
+            <tr>
+                <th width="250px"></th>
+                <th width="250px">Meal Name</th>
+                <th width="80px">Unit Price</th>
+                <th width="80px">Quantity</th>
+                <th width="80px">Sub-Total</th>
+                <th width="100px"></th>
+                <th width="100px"></th>
+            </tr>
+
+            {{#each cart}}
+            <tr>
+                <td><img src="/images/Burgers/{{meal.imageUrl}}" width="200px"></td>
+                <td><p>{{meal.title}}</p></td>
+                <td><p>{{meal.price}}</p></td>
+                <td><p>{{qty}}</p></td>
+                <td><p>{{subTotal}}</p></td>
+                <td><a href="/customer/add-meal/:{{id}}">add</a></td>
+                <td><a href="/customer/remove-meal/:{{id}}">remove</a></td>
+            </tr>
+            {{/each}}
+        </table>
+    {{else if message}}
+        <h2>{{message}}</h2>
+    {{else}}
+        <h2>It is empty</h2>
+    {{/if}}

@@ -1,8 +1,120 @@
-<link rel="stylesheet" href="/css/list-mealkits.css"/>
+<link rel="stylesheet" href="/css/BurgerList.css"/>
 
 <h1>Welcome</h1>
 
-<p>
-    Welcome to Clerk's list-mealkits page. The site is still under construction.
-    Other parts will be available soon.
-</p>
+<h1>Edit / Remove Existing Meals</h1>
+
+{{#each meals}}
+    <table>
+        <th width="60%" >
+            {{>mealkit}}
+        </th>
+        <td width="40%">
+            <div>
+                <form method="post" action="edit-mealkit/{{_id}}">
+                    <table>
+                        <tr>
+                            <th>title</th>
+                            <td><input type="text" name="title" value="{{title}}" /></td>
+                        </tr>
+                        <tr>
+                            <th>includes</th>
+                            <td><input type="text" name="includes" value="{{includes}}" /></td>
+                        </tr>
+                        <tr>
+                            <th>description</th>
+                            <td><input type="text" name="description" value="{{description}}" /></td>
+                        </tr>
+                        <tr>
+                            <th>category</th>
+                            <td><input type="text" name="category" value="{{category}}" /></td>
+                        </tr>
+                        <tr>
+                            <th>price</th>
+                            <td><input type="text" name="price" value="{{price}}" /></td>
+                        </tr>
+                            <th>cooking time</th>
+                            <td><input type="text" name="cookingTime" value="{{cookingTime}}" /></td>
+                        </tr>
+                        <tr>
+                            <th>servings</th>
+                            <td><input type="text" name="servings" value="{{servings}}" /></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>
+                                <button type="submit">Update</button>
+                                <input type="button" onclick="location.href='/clerk/remove-mealkit/:{{_id}}';" value="remove" />
+                            </td>
+                        </tr>
+                    </table>
+                    
+                </form>
+            </div>
+        </td>
+    </table>
+
+{{/each}}
+
+<h1>Adding New Meal</h1>
+
+
+<div>
+    <form method="POST" action="/clerk/add-mealkit" enctype="multipart/form-data">
+        <table>
+
+            <th width="70%">
+            </th>
+
+            <td width="30%">
+                <tr>
+                    <th>
+                        <input type="checkbox" role="switch" name="isTopMeal" id="isTopMeal">
+                        <label for="isTopMeal" style="font-size:15px">Is it a Top Meal</label>
+                    </th>
+                    <td>
+                        <label for="mealPic">Picture:</label>
+                        <input type="file" name="mealPic" id="mealPic" /><br /><br />
+                    </td>
+                </tr>
+               
+
+                <tr>
+                    <th>title</th>
+                    <td><input type="text" name="title" value="{{title}}" /></td>
+                </tr>
+                <tr>
+                    <th>includes</th>
+                    <td><input type="text" name="includes" value="{{includes}}" /></td>
+                </tr>
+                <tr>
+                    <th>description</th>
+                    <td><input type="text" name="description" value="{{description}}" /></td>
+                </tr>
+                <tr>
+                    <th>category</th>
+                    <td><input type="text" name="category" value="{{category}}" /></td>
+                </tr>
+                <tr>
+                    <th>price</th>
+                    <td><input type="text" name="price" value="{{price}}" /></td>
+                </tr>
+                    <th>cooking time</th>
+                    <td><input type="text" name="cookingTime" value="{{cookingTime}}" /></td>
+                </tr>
+                <tr>
+                    <th>servings</th>
+                    <td><input type="text" name="servings" value="{{servings}}" /></td>
+                </tr>
+
+                <tr>
+                    <th></th>
+                    <td>
+                        <button type="submit">Add</button></td>
+                    </td>
+                </tr>
+            </td>
+        </table>
+    </form>
+
+</div>
