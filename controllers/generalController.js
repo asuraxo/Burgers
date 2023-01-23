@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
+
+
 const burgerList = require("../models/mealkit-db");
-const mealkitModel = require("../models/meal-kitModel");
+
 const renderPages = require("../models/Pages");
 const pages=renderPages.getPages();
 
@@ -20,48 +22,8 @@ router.get("/headers", (req, res) => {
 
 // Route to on-the-menu
 router.get("/on-the-menu", (req, res) => {
-    // res.render("on-the-menu", {
-    //     burgers: burgerList.getMealsByCategory()
-    // });
-
-    mealkitModel.find()
-    .exec()
-    .then(data => {
-        meals = data.map(value => value.toObject());
-
-        var mealsByCategory = [];
-        var addCategory = true;
-
-        //add new categories
-        for(let i=0; i<meals.length; i++) {
-            for(let j=0; j<mealsByCategory.length; j++) {
-                if(meals[i].category===mealsByCategory[j].categoryName){
-                    addCategory=false;
-                };
-            }
-            if(addCategory) {
-                mealsByCategory.push(
-                    {
-                        categoryName:meals[i].category, 
-                        mealKits:[]
-                    }
-                );
-                mealsByCategory[mealsByCategory.length-1].categoryName = meals[i].category;            
-            }
-            addCategory = true;
-        }
-        //push into category
-        for(let i=0; i<meals.length; i++) {
-            for(let j=0; j<mealsByCategory.length; j++) {
-                if(meals[i].category===mealsByCategory[j].categoryName){
-                    mealsByCategory[j].mealKits.push(meals[i]);
-                }
-            }
-        }
-
-        res.render("on-the-menu", {
-            burgers: mealsByCategory,
-        });
+    res.render("on-the-menu", {
+        burgers: burgerList.getMealsByCategory()
     });
 });
 
