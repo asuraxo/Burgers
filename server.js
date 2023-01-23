@@ -54,7 +54,6 @@ app.use((req, res, next) => {
         res.locals.user = req.session.user;
         res.locals.cart = req.session.cart;
     }
-    
     next();
 });
 
@@ -72,23 +71,26 @@ mongoose.set('strictQuery', true);
 
 
 // Set up controllers
-const generalController = require("./controllers/generalController");
 
+//general controller
+const generalController = require("./controllers/generalController");
 app.use("/", generalController);
 
+//registration controller
 const registrationController = require("./controllers/registration");
 app.use("/", registrationController);
 
+//log in controller
 const logInController = require("./controllers/log-in");
 app.use("/", logInController);
 
+//clerk controller
 const clerkController = require("./controllers/clerkController");
-// app.use("/", clerkController);
 app.use("/clerk/", clerkController);
 app.use('/clerk', express.static(path.join(__dirname, "/assets")));
 
+//user controller
 const userController = require("./controllers/userController");
-// app.use("/", userController);
 app.use("/customer/", userController);
 app.use('/customer', express.static(path.join(__dirname, "/assets")));
 
