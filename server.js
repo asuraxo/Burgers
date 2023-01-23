@@ -17,6 +17,9 @@ const exphbs = require("express-handlebars");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const session = require("express-session");
+const fileUpload = require("express-fileupload");
+const { homedir } = require("os");
+
 
 // Set up Handlebars.
 app.engine(".hbs", exphbs.engine({
@@ -28,6 +31,9 @@ app.use(express.static(path.join(__dirname, "/assets")));
 
 // Set up Body Parser.
 app.use(express.urlencoded({ extended: true }));
+
+// Set up express-upload
+app.use(fileUpload());
 
 // Set up dotenv.
 dotenv.config({ path: "./config/keys.env" });
@@ -44,9 +50,11 @@ app.use((req, res, next) => {
     // This means that every single handlebars file can access this variable.
     if (req.session.clerk) {
         res.locals.clerk = req.session.clerk;
-    } else {
+    } else if (req.session.user){
         res.locals.user = req.session.user;
+        res.locals.cart = req.session.cart;
     }
+    
     next();
 });
 
@@ -60,6 +68,7 @@ mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {
     .catch(err => {
         console.log(`There was a problem connecting to MongoDB ... ${err}`);
 });
+mongoose.set('strictQuery', true);
 
 
 // Set up controllers
