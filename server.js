@@ -11,12 +11,15 @@
 **************************************************************************************/
 
 const path = require("path");
-const exphbs = require("express-handlebars");
 const express = require("express");
-const { homedir } = require("os");
 const app = express();
-
+const exphbs = require("express-handlebars");
+// const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+// const session = require("express-session");
+// const fileUpload = require("express-fileupload");
+const { homedir } = require("os");
+
 dotenv.config({ path: "./config/keys.env" });
 
 app.engine(".hbs", exphbs.engine({
