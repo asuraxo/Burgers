@@ -15,12 +15,12 @@
                     <span style="color: red;">{{validationMessages.lastName}}</span><br />
                 {{/if}}
 
-            <input class="formAttributes" id="email" name="email" value="{{values.email}}" type="text" placeholder="Email Address"> <br>
+            <input class="formAttributes" id="email" name="email" value="{{values.email}}" type="email" placeholder="Email Address"> <br>
                 {{#if validationMessages.email}}
                     <span style="color: red;">{{validationMessages.email}}</span><br />
                 {{/if}}
 
-            <input class="formAttributes" id="password" name="password" value="{{values.password}}"   type="text" placeholder="Password">      <br>
+            <input class="formAttributes" id="password" name="password" value="{{values.password}}"   type="password" placeholder="Password">      <br>
                 {{#if validationMessages.password}}
                     <span style="color: red;">{{validationMessages.password}}</span><br />
                 {{/if}}
