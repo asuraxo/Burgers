@@ -1,0 +1,19 @@
+
+#BurgerList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .mealKitContainer {
+    display: flex;
+    width: 40%;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding-top : 20px;
+    padding-bottom: 20px;
+    margin:10px;
+  }
+  
+
+  

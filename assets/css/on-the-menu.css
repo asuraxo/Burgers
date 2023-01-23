@@ -1,0 +1,25 @@
+.category>u {
+  width: 100%;
+  color: blue;
+  font-weight: 400;
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  size:3em;
+}
+
+.category {
+  margin:auto;
+  padding:auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+container {
+  margin:auto;
+  padding:auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 40%;
+  margin-bottom: 30px;
+}

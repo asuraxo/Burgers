@@ -1,0 +1,58 @@
+#log-in {
+  padding:auto;
+  margin:auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding-top:30px;
+  padding-bottom:30px;
+  width:80%;
+  
+
+  border:3px;
+  border-radius: 3px;
+  border-color: orange;
+  border-style:dashed;
+}
+
+#log-in h1 {
+  color:blueviolet;
+  size: 2em;
+}
+
+#log-in h2 {
+  margin:auto;
+  padding:auto;
+
+  width:60%;
+  color:blueviolet;
+  size: 0.7em;
+  font-weight: 400;
+}
+
+.formAttributes {
+  width: 80%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  height:50px;
+}
+
+#login-button {
+  color:blueviolet;
+  width:80%;
+  height:50px;
+  border:2px;
+  padding:auto;
+  margin:auto;
+
+  border-radius: 3px;
+  border-color: black;
+  border-style:solid;
+
+  font-size: 30px;
+  font-style: italic;
+}
+
+.errors {
+  font-size:15px;
+  color: red;
+}

@@ -1,0 +1,31 @@
+    <link rel="stylesheet" href="/css/registration.css"/>
+
+    <div id="registration">
+        <h1>Sign Up</h1>
+        <h2>Create your account by entering your email address and choosing a password</h2>
+        <form method="post" action="/registration">
+
+            <input class="formAttributes" id="firstName" name="firstName" value="{{values.firstName}}"  type="text" placeholder="First Name">    <br>
+                {{#if validationMessages.firstName}}
+                    <span style="color: red;">{{validationMessages.firstName}}</span><br />
+                {{/if}}
+
+            <input class="formAttributes" id="lastName" name="lastName" value="{{values.lastName}}"  type="text" placeholder="Last Name">    <br>
+                {{#if validationMessages.lastName}}
+                    <span style="color: red;">{{validationMessages.lastName}}</span><br />
+                {{/if}}
+
+            <input class="formAttributes" id="email" name="email" value="{{values.email}}" type="email" placeholder="Email Address"> <br>
+                {{#if validationMessages.email}}
+                    <span style="color: red;">{{validationMessages.email}}</span><br />
+                {{/if}}
+
+            <input class="formAttributes" id="password" name="password" value="{{values.password}}"   type="password" placeholder="Password">      <br>
+                {{#if validationMessages.password}}
+                    <span style="color: red;">{{validationMessages.password}}</span><br />
+                {{/if}}
+
+            <input type="submit" id="sign-up-button" value="Register" />
+
+        </form>
+    </div>

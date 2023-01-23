@@ -1,0 +1,21 @@
+img {
+    width: 100%;
+  }
+  
+u {
+    width:100%;
+    padding: 5px;
+    font-size: 1.5em;
+    color: chocolate;
+    float: left;
+  }
+  
+i {
+    width: 100%;
+    padding: 5px;
+    float: right;
+  }
+  
+a {
+    padding: 5px;
+  }

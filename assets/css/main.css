@@ -1,0 +1,145 @@
+body {
+    background: linear-gradient(rgb(153, 214, 235), rgb(150, 233, 150), rgb(219, 186, 126));
+    margin-top:10px;
+    text-align: center;
+  }
+  
+  header {
+    width:90%;
+    margin: auto;
+    padding: auto;
+    display: flex;
+    justify-content:center;
+  }
+  
+  header div {
+    margin: 10px;
+    padding: 10px;
+  }
+  
+  main {
+    width:90%;
+    margin: auto;
+    padding: auto;
+    min-height: 800px;
+  }
+  
+  footer {
+    margin-top:10px;
+    padding-top:10px;
+    width:100%;
+    background-color: aqua;
+  }
+
+  #remarks{
+    padding: 5px;
+    text-align: right;
+  }
+  #remarks>i{
+    width:100%;
+    float:right;
+    background-color: aqua;
+  }
+  
+  #nav_menu {
+    display: flex;  
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin:10px;
+  
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 20px;  
+    font-style: italic;
+  
+    border: 3px;
+    border-color: rgb(124, 147, 212);
+    border-style:solid ;
+  }
+
+  #footer_nav {
+
+    color: white;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+  
+  .footer_ul {
+    padding: 10px;
+    margin: 10px;
+    display: flex;  
+    flex-wrap: wrap;
+  }
+
+  .footer_ul>ul{
+    text-align: left;
+    justify-content: start;
+    padding:auto;
+    margin:auto;
+    margin-top:3px;
+    max-width: 30%;
+  }
+  
+  #footer_nav li{
+    align-items: left;
+    list-style-type: none;
+    padding:5px;
+  }
+
+  .footer_ul {
+    padding:0;
+    margin:0;
+    min-width:70%;
+    max-width:100%;
+  }
+
+  .social {
+    margin:10px;
+    padding:10px;
+    max-width:80%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .socialImage {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin:auto;
+    padding:auto;
+  }
+  
+  .social>a {
+    max-width: 33%;
+    align-content: center;
+    margin:auto;
+    padding:auto;
+  }
+  
+  .socialImage>a>img{
+    margin:auto;
+    padding:auto;
+    width:100px;
+  }
+  
+  header div:hover {
+    transform: scale(1.1);
+  }
+  
+  nav ul:hover {
+    transform: scale(1.1);
+  }
+  
+  container:hover {
+    transform: scale(1.1);
+  }
+  
+  footer>div>ul>li>:hover {
+    transform: scale(1.1);
+  }
+  
+  img:hover {
+    transform: scale(1.1);
+  }
+ 

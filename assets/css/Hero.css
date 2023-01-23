@@ -1,0 +1,30 @@
+
+#Hero {
+  border: 3px;
+  border-color: rgb(124, 147, 212);
+  border-style:solid ;
+}
+
+#hero-steps {
+  display:flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.boxes {
+  width: 200px;
+}
+
+h1 {
+  width: 100%;
+  padding: auto;
+}
+
+iframe {
+  padding:auto;
+}
+
+
+#Hero img {
+  min-width: 100px;
+}

@@ -1,0 +1,11 @@
+    <link rel="stylesheet" href="/css/on-the-menu.css" />
+    <main>
+        {{#each burgers}}
+            <div class="category">
+                <u>{{categoryName}}</u>
+                    {{#each mealKits}}
+                        {{>mealkit}}
+                    {{/each}}
+            </div>
+        {{/each}}
+    </main>

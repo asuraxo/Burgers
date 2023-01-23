@@ -1,0 +1,29 @@
+    <link rel="stylesheet" href="/css/log-in.css"/>
+
+<div id="log-in">
+    <h1>Welcome Back</h1>
+    <form method="post" action="/log-in">
+            
+            <input class="formAttributes" id="email" name="email" value="{{values.email}}" type="email" placeholder="Email Address"> <br>
+                {{#if validationMessages.email}}
+                    <span style="color: red;">{{validationMessages.email}}</span><br />
+                {{/if}}
+
+            <input class="formAttributes" id="password" name="password" value="{{values.password}}"   type="password" placeholder="Password">      <br>
+                {{#if validationMessages.password}}
+                    <span style="color: red;">{{validationMessages.password}}</span><br />
+                {{/if}}
+            
+            <div class="clerk_radio">
+                 <input type="checkbox" role="switch" name="logInAsClerk" id="logInAsClerk">
+                 <label for="clerk" style="font-size:15px">Log-in as Clerk</label>
+            </div>
+
+            {{#each errors}}
+                <p class="errors">{{this}}</p>;
+            {{/each}}
+
+        <input type="submit" id="login-button" value="Log-In" />
+
+    </form>
+</div>
