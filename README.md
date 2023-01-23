@@ -1,3 +1,3 @@
-# web322-wso8
-github: https://github.com/asuraxo/web322-wso8
-cyclic: https://cute-pink-xerus-hem.cyclic.app/
+# Burgers
+
+App URL:** **[https://cloudy-tick-neckerchief.cyclic.app](https://cloudy-tick-neckerchief.cyclic.app/)
