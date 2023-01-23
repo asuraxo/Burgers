@@ -1,6 +1,8 @@
         <header>
             <div>
-                <a href="/"><img src="images/Burgers/icon.jpeg" height="150px" /></a>
+                <a href="/"><img src="images/Burgers/icon.jpeg" /></a>
+                {{!-- <a href="/"><img src="../../assets/images/Burgers/icon.jpeg" /></a> --}}
+
             </div>
             <div>
                 <h1>David's Burger</h1>
@@ -8,10 +10,4 @@
             </div>
         </header>
         
-        <nav id="nav_menu">
-            <ul><div><a href="/">Home</a></div></ul>
-            <ul><div><a href="/on-the-menu">On The Menu</a></div></ul>
-            <ul><div><a href="/registration">Registration</a></div></ul>
-            <ul><div><a href="/log-in">Log-in</a></div></ul>
-            <ul><div><a href="/checkout">Check-Out</a></div></ul>
-        </nav>
+        {{>Nav_menu}}

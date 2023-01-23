@@ -11,88 +11,94 @@
 **************************************************************************************/
 
 const path = require("path");
-const exphbs = require("express-handlebars");
 const express = require("express");
-const { homedir } = require("os");
 const app = express();
-
+const exphbs = require("express-handlebars");
+const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-dotenv.config({ path: "./config/keys.env" });
+const session = require("express-session");
+const fileUpload = require("express-fileupload");
 
+
+// Set up Handlebars.
 app.engine(".hbs", exphbs.engine({
     extname: ".hbs",
     defaultLayout: "main"
 }));
-
 app.set("view engine", ".hbs");
-
-app.use(express.urlencoded({ extended: false }));
-
 app.use(express.static(path.join(__dirname, "/assets")));
 
+// Set up Body Parser.
+app.use(express.urlencoded({ extended: true }));
 
-const burgerList = require("./models/mealkit-db");
-const renderPages = require("./models/Pages");
-const pages=renderPages.getPages();
+// Set up express-upload
+app.use(fileUpload());
 
-// Add your routes here
-// e.g. app.get() { ... }
-app.get("/", (req, res) => {
-    res.render("home", {
-        burgers: burgerList.getTopMealkits()
-    });
+// Set up dotenv.
+dotenv.config({ path: "./config/keys.env" });
+
+// Set up express-session
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true
+}));
+
+app.use((req, res, next) => {
+    // res.locals.user is a global handlebars variable.
+    // This means that every single handlebars file can access this variable.
+    if (req.session.clerk) {
+        res.locals.clerk = req.session.clerk;
+    } else if (req.session.user){
+        res.locals.user = req.session.user;
+        res.locals.cart = req.session.cart;
+    }
+    
+    next();
 });
 
-// app.get("/", (req, res) => {
-//     res.send("Hello World!");
-// });
-
-
-
-app.get("/headers", (req, res) => {
-    const headers = req.headers;
-    res.json(headers);
-})
-
-app.get("/on-the-menu", (req, res) => {
-    res.render("on-the-menu", {
-        burgers: burgerList.getMealsByCategory()
-    });
+// Connect to the MongoDb
+mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    }).then(() => {
+        console.log("Connected to the MongoDB database.")
+    })
+    .catch(err => {
+        console.log(`There was a problem connecting to MongoDB ... ${err}`);
 });
+mongoose.set('strictQuery', true);
 
-app.get("/welcome", (req, res) => {
-    res.render("welcome")
-});
 
+// Set up controllers
+
+//general controller
+const generalController = require("./controllers/generalController");
+app.use("/", generalController);
+
+//registration controller
 const registrationController = require("./controllers/registration");
 app.use("/", registrationController);
 
+//log in controller
 const logInController = require("./controllers/log-in");
 app.use("/", logInController);
 
+//clerk controller
+const clerkController = require("./controllers/clerkController");
+app.use("/clerk/", clerkController);
+app.use('/clerk', express.static(path.join(__dirname, "/assets")));
 
-pages.forEach((element) => {
-    app.get((element.site), (req, res) => {
-        res.render(element.name);
-    });
-});
-
-// pages.forEach((element) => {
-//     if(element.loadItem===0) {
-//         app.get((element.site), (req, res) => {
-//             res.render(element.name);
-//         });
-//     }
-//     else {
-//         app.get((element.site), (req, res) => {
-//             res.render(element.name, {
-//                 element.loadItem.name: element.loadItem.function;
-//             });
-//         });
-//     }
-// });
+//user controller
+const userController = require("./controllers/userController");
+app.use("/customer/", userController);
+app.use('/customer', express.static(path.join(__dirname, "/assets")));
 
 
+
+
+// Add your routes here
+// e.g. app.get() { ... }
 
 
 
@@ -126,18 +132,3 @@ function onHttpStart() {
 // Listen on port 8080. The default port for http is 80, https is 443. We use 8080 here
 // because sometimes port 80 is in use by other applications on the machine
 app.listen(HTTP_PORT, onHttpStart);
-
-
-
-
-// var HTTP_PORT = process.env.PORT || 8080;
-// var express = require("express");
-// var app = express();
-
-// // setup a 'route' to listen on the default url path
-// app.get("/", (req, res) => {
-//     res.send("Hello World!");
-// });
-
-// // setup http server to listen on HTTP_PORT
-// app.listen(HTTP_PORT);

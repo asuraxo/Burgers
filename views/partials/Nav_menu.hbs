@@ -1,7 +1,21 @@
-            <nav id="nav_menu">
-                <ul><div><a href="/">Home</a></div></ul>
-                <ul><div><a href="/on-the-menu">On The Menu</a></div></ul>
-                <ul><div><a href="/sign-up">Sign-Up</a></div></ul>
-                <ul><div><a href="/log-in">Log-in</a></div></ul>
-                <ul><div><a href="/checkout">Check-Out</a></div></ul>
-            </nav>
+    
+    <nav id="nav_menu">
+        <ul><div><a href="/">Home</a></div></ul>
+        <ul><div><a href="/on-the-menu">On The Menu</a></div></ul>
+
+        {{#if user}}
+            <ul><div><a>User: {{user.firstName}}</a></div></ul>
+            <ul><div><a href="/log-out">Log-out</a></div></ul>
+            <ul><div><a href="/customer/cart">Cart</a></div></ul>
+
+        {{else if clerk}}
+            <ul><div><a>Clerk: {{clerk.firstName}}</a></div></ul>
+            <ul><div><a href="/log-out">Log-out</a></div></ul>
+            <ul><div><a href="/clerk/list-mealkits">List-MealKits</a></div></ul>
+            <ul><div><a href="/clerk/load-data/meal-kits">Load Data</a></div></ul>
+
+        {{else}}
+            <ul><div><a href="/registration">Sign-Up</a></div></ul>
+            <ul><div><a href="/log-in">Log-in</a></div></ul>
+        {{/if}}
+    </nav>

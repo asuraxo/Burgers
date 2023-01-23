@@ -1,6 +1,6 @@
-
 var burgerList = [
     {
+        // id          : 1,
         title       : 'Cheese Burger',
         includes    : 'Regular Bun, Beef Patty, Pasteurized Process American Cheese, Ketchup, Pickle Slices, Onions, Mustard',
         description : 'Very delicious Cheese Burger',
@@ -13,6 +13,7 @@ var burgerList = [
     },
 
     {
+        // id          : 2,
         title       : 'Bacon & Cheese Burger',
         includes    : 'Premium Bun, Beef Patty, Pasteurized Process American Cheese, Applewood Smoked Bacon, Ketchup, Pickle Slices, Onions, Mustard',
         description : 'Our Famous Bacon & Cheese Burger',
@@ -25,6 +26,7 @@ var burgerList = [
     },
 
     {
+        // id          : 3,
         title       : 'Double Burger',
         includes    : 'Premium Bun, Double Beef Patty, Pasteurized Process American Cheese, Mayonnaise, Ketchup, Pickle Slices, Onions, Mustard',
         description : 'Burgers that you cannot finish on your own',
@@ -37,6 +39,7 @@ var burgerList = [
     },
 
     {
+        // id          : 4,
         title       : 'Chicken Burger',
         includes    : 'Premium Bun, Spicy Chicken Breast, Jalapeno Cream Cheese, Shredded Pepper Jack Cheese, Applewood Smoked Bacon, Ketchup, Pickle Slices, Onions, Mustard',
         description : 'Our most crispy choice',
@@ -49,6 +52,7 @@ var burgerList = [
     },
 
     {
+        // id          : 5,
         title       : 'Fish Burger',
         includes    : 'Premium Bun, Fish Filet Patty, Pasteurized Process American Cheese, Applewood Smoked Bacon, Tartar Sauce, Pickle Slices, Onions',
         description : 'Our seafood choice',
@@ -61,6 +65,7 @@ var burgerList = [
     },
 
     {
+        // id          : 6,
         title       : 'Plant Based Burger',
         includes    : 'Premium Bun, Plant-Based Light Life Beef Pattery, Pasteurized Process American Cheese, Applewood Smoked Bacon, Tartar Sauce, Pickle Slices, Onions',
         description : 'Vegetarian\'s Choice',
@@ -72,6 +77,7 @@ var burgerList = [
         topMeal     : true
     },
     {
+        // id          : 7,
         title       : 'Premium Angus Burger',
         includes    : 'Premium Bun, Premium Angus Patty, Pasteurized Process American Cheese, Mayonnaise, Ketchup, Pickle Slices, Onions, Mustard',
         description : 'The most premium choice',
@@ -83,6 +89,7 @@ var burgerList = [
         topMeal     : true
     },
     {
+        // id          : 8,
         title       : 'Shrimp Burger',
         includes    : 'Premium Bun, Crsipy Shrimp Filet Patty, Pasteurized Process American Cheese, Applewood Smoked Bacon, Tartar Sauce, Pickle Slices, Onions',
         description : 'Our fresh and crispy choice',
