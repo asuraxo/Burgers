@@ -1,12 +1,5 @@
 <link rel="stylesheet" href="/css/BurgerList.css"/>
 <div id="BurgerList">
-    {{#if clerk}}
-        <ul>
-            <li><div><a href="/clerk/add-mealkit">Add Meal Kit</a></div></li>
-            <li><div><a href="/clerk/edit-mealkit">Edit Meal Kit</a></div></li>
-            <li><div><a href="/clerk/remove-mealkit">Remove Meal Kit</a></div></li>
-        </ul>
-    {{/if}}
     {{#each burgers}}
         {{>mealkit}}
     {{/each}}
