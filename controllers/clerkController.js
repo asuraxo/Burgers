@@ -1,9 +1,6 @@
-const path = require("path");
+const userModel = require("../models/userModel");
 const express = require("express");
 const router = express.Router();
-const mealkitModel = require("../models/meal-kitModel");
-
-var meals;
 
 router.get("/list-mealkits", checkClerk, (req, res) => {
     res.render("list-mealkits")
