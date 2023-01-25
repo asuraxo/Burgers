@@ -120,5 +120,10 @@ router.get("/remove-mealkit/:id", checkClerk, (req, res) => {
     res.redirect("/clerk/list-mealkits");
 });
 
+//load data controller
+const loadDataController = require("../controllers/loadDataController");
+router.use("/load-data/", loadDataController);
+router.use('/load-data', express.static(path.join(__dirname, "../assets")));
+
 
 module.exports = router;
