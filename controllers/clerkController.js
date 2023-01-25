@@ -81,5 +81,44 @@ router.post("/add-mealkit", checkClerk, (req, res) => {
         });
 });
 
+router.post("/edit-mealkit/:id", checkClerk, (req, res) => {
+    let editMealID = parseInt(req.params.id.replace(':',''));    
+    mealkitModel.updateOne({
+        id: editMealID
+    }, {
+        $set: {
+            title       : req.body.title,
+            includes    : req.body.includes,
+            description : req.body.description,
+            category    : req.body.category,
+            price       : req.body.price,
+            cookingTime : req.body.cookingTime,
+            servings    : req.body.servings,
+        }
+    })
+        .exec()
+        .then(() => {
+            console.log("Successfully updated the document for: " + req.body.id);
+
+        });
+
+    res.redirect("/clerk/list-mealkits");
+});
+
+router.get("/remove-mealkit/:id", checkClerk, (req, res) => {
+
+    let deleteMealID = req.params.id.replace(':','');
+
+    mealkitModel.findByIdAndRemove(deleteMealID, function(err, docs) {
+        if(err) {
+            console.log(err);
+        }
+        else{
+            console.log("Removed meal: ", docs);
+        }
+    });
+    res.redirect("/clerk/list-mealkits");
+});
+
 
 module.exports = router;
