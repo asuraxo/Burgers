@@ -13,7 +13,7 @@ router.get("/registration", (req, res) => {
 });
 
 router.post("/registration", (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
 
     const { firstName, lastName, email, password } = req.body;
 
