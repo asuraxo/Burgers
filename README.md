@@ -1,6 +1,6 @@
 # David's Burger Store Project
 
-Website Link: [https://grumpy-colt-sari.cyclic.app/on-the-menu]()
+Website Link: [https://grumpy-colt-sari.cyclic.app/on-the-menu]() (hosted by Cyclic)
 
 Language: HTML5, JavaScript
 
