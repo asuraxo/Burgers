@@ -16,6 +16,12 @@ Log-In:
 
     Select to sign in as Clerk / User
 
-Clerk functions: Add / Edit / Delete meals
+Clerk functions: 
 
-User functions: Purchase of meals, receipt will be send to user's email automatically
+    Add / Edit / Delete meals
+
+User functions: 
+
+    Purchase of meals
+
+    receipt will be send to user's email automatically
