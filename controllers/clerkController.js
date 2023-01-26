@@ -54,7 +54,6 @@ router.post("/add-mealkit", checkClerk, (req, res) => {
             // Copy the image data to a file in the "/assets/profile-pics" folder.
             req.files.mealPic.mv(`assets/images/Burgers/${uniqueName}`)
                 .then(() => {
-                    // Update the document so it includes the unique name.
                     mealkitModel.updateOne({
                         _id: mealSaved._id
                     }, {
