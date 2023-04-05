@@ -102,46 +102,67 @@ var burgerList = [
     }
 ];
 
-module.exports.getAllMeals = function() {
-    return burgerList;
-};
+module.exports.getAllMeals = () => burgerList;
 
-module.exports.getTopMealkits = function() {
-    let topMealList = [];
-    burgerList.forEach((element) => {
-        if(element.topMeal) {
-            topMealList.push(element);
-        }
-    });
-    return topMealList;
-};
+module.exports.getTopMealKits = () => burgerList.filter(burger => burger.topMeal);
 
-module.exports.getMealsByCategory = function() {
-    var mealsByCategory = [];
-    var addCategory = true;
-    //add new categories
-    for(let i=0; i<burgerList.length; i++) {
-        for(let j=0; j<mealsByCategory.length; j++) {
-            if(burgerList[i].category===mealsByCategory[j].categoryName){
-                addCategory=false;
-            };
+// module.exports.getMealsByCategory = function() {
+//     var mealsByCategory = [];
+//     var addCategory = true;
+//     //add new categories
+//     for(let i=0; i<burgerList.length; i++) {
+//         for(let j=0; j<mealsByCategory.length; j++) {
+//             if(burgerList[i].category===mealsByCategory[j].categoryName){
+//                 addCategory=false;
+//             };
+//         }
+//         if(addCategory) {
+//             mealsByCategory.push(
+//                 {
+//                     categoryName:burgerList[i].category, 
+//                     mealKits:[]
+//                 }
+//             );
+//             mealsByCategory[mealsByCategory.length-1].categoryName = burgerList[i].category;            
+//         }
+//         addCategory = true;
+//     }
+//     //push into category
+//     for(let i=0; i<burgerList.length; i++) {
+//         for(let j=0; j<mealsByCategory.length; j++) {
+//             if(burgerList[i].category===mealsByCategory[j].categoryName){
+//                 mealsByCategory[j].mealKits.push(burgerList[i]);
+//             }
+//         }
+//     }
+//     return mealsByCategory;
+// };
+
+module.exports.getMealsByCategory = () => {
+    const mealsByCategory = [];
+    let addCategory = true;
+
+    for(const burger of burgerList) {
+        for(const category of mealsByCategory) {
+            if(burger.category === category.categoryName) {
+                addCategory = false;
+            }
         }
         if(addCategory) {
             mealsByCategory.push(
                 {
-                    categoryName:burgerList[i].category, 
-                    mealKits:[]
+                    categoryName: burger.category,
+                    mealKits: []
                 }
             );
-            mealsByCategory[mealsByCategory.length-1].categoryName = burgerList[i].category;            
         }
         addCategory = true;
     }
-    //push into category
-    for(let i=0; i<burgerList.length; i++) {
-        for(let j=0; j<mealsByCategory.length; j++) {
-            if(burgerList[i].category===mealsByCategory[j].categoryName){
-                mealsByCategory[j].mealKits.push(burgerList[i]);
+
+    for(const burger of burgerList) {
+        for(const category of mealsByCategory) {
+            if(burger.category === category.categoryName) {
+                category.mealKits.push(burger);
             }
         }
     }

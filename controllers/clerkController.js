@@ -26,12 +26,14 @@ router.get("/list-mealkits", checkClerk, (req, res) => {
             res.render("list-mealkits", {
                 meals,
             });
-    });
+        })
+        .catch(err => {
+            console.log(`Error finding meals in the database ... ${err}`);
+            res.redirect("/clerk/list-mealkits");
+        });
 });
 
 router.post("/add-mealkit", checkClerk, (req, res) => {
-
-    req.body.isTopMeal ? req.body.isTopMeal=true : req.body.isTopMeal=false;
 
     let newMeal = new mealkitModel({
         title       : req.body.title,
@@ -41,7 +43,7 @@ router.post("/add-mealkit", checkClerk, (req, res) => {
         price       : req.body.price,
         cookingTime : req.body.cookingTime,
         servings    : req.body.servings,
-        topMeal     : req.body.isTopMeal
+        topMeal     : req.body.isTopMeal ? true : false
     });
 
     newMeal.save()
@@ -96,27 +98,52 @@ router.post("/edit-mealkit/:id", checkClerk, (req, res) => {
         }
     })
         .exec()
+    //     .then(() => {
+    //         console.log("Successfully updated the document for: " + req.body.id);
+
+    //     });
+
+    // res.redirect("/clerk/list-mealkits");
         .then(() => {
-            console.log("Successfully updated the document for: " + req.body.id);
-
+            console.log("Successfully updated the document for: " + req.params.id);
+            res.redirect("/clerk/list-mealkits");
+        })
+        .catch(err => {
+            console.log(`Error updating meal in the database ... ${err}`);
+            res.redirect("/clerk/list-mealkits");
         });
-
-    res.redirect("/clerk/list-mealkits");
 });
+
+// router.get("/remove-mealkit/:id", checkClerk, (req, res) => {
+
+//     let deleteMealID = req.params.id.replace(':','');
+
+//     mealkitModel.findByIdAndRemove(deleteMealID, function(err, docs) {
+//         if(err) {
+//             console.log(err);
+//         }
+//         else{
+//             console.log("Removed meal: ", docs);
+//         }
+//     });
+//     res.redirect("/clerk/list-mealkits");
+// });
+
 
 router.get("/remove-mealkit/:id", checkClerk, (req, res) => {
 
-    let deleteMealID = req.params.id.replace(':','');
+    let deleteMealID = req.params.id;
 
-    mealkitModel.findByIdAndRemove(deleteMealID, function(err, docs) {
-        if(err) {
-            console.log(err);
-        }
-        else{
+    mealkitModel.findByIdAndRemove(deleteMealID)
+        .exec()
+        .then(docs => {
             console.log("Removed meal: ", docs);
-        }
-    });
-    res.redirect("/clerk/list-mealkits");
+            res.redirect("/clerk/list-mealkits");
+        })
+        .catch(err => {
+            console.log(`Error removing meal from the database ... ${err}`);
+            res.redirect("/clerk/list-mealkits");
+        });
 });
 
 //load data controller

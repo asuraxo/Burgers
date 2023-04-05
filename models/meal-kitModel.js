@@ -8,7 +8,7 @@ const mealKitSchema = new mongoose.Schema ({
     price       : {type: Number,                 required: true },
     cookingTime : {type: Number,                                },
     servings    : {type: Number,                                },
-    imageUrl    :  String                                        ,
+    imageUrl    : {type: String                                 },
     topMeal     : {type: Boolean,                               }
 });
 
