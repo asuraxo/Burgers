@@ -114,22 +114,6 @@ router.post("/edit-mealkit/:id", checkClerk, (req, res) => {
         });
 });
 
-// router.get("/remove-mealkit/:id", checkClerk, (req, res) => {
-
-//     let deleteMealID = req.params.id.replace(':','');
-
-//     mealkitModel.findByIdAndRemove(deleteMealID, function(err, docs) {
-//         if(err) {
-//             console.log(err);
-//         }
-//         else{
-//             console.log("Removed meal: ", docs);
-//         }
-//     });
-//     res.redirect("/clerk/list-mealkits");
-// });
-
-
 router.get("/remove-mealkit/:id", checkClerk, (req, res) => {
 
     let deleteMealID = req.params.id;
@@ -153,3 +137,5 @@ router.use('/load-data', express.static(path.join(__dirname, "../assets")));
 
 
 module.exports = router;
+
+
