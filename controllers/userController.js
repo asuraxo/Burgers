@@ -196,4 +196,11 @@ router.get("/check-out", checkCustomer, (req, res) => {
     }
 });
 
+
+
+
+
+
+
+
 module.exports = router;

@@ -1,14 +1,13 @@
 const path = require("path");
-const userModel = require("../models/userModel");
 const express = require("express");
 const router = express.Router();
 const mealkitModel = require("../models/meal-kitModel");
 
 var meals;
 
+// Gate for clerks
 function checkClerk(req, res, next) {
     if (!res.locals.clerk) {
-        console.log("Not yet log-in as clerk!");
         res.redirect("/log-in");
     } 
     else {
@@ -16,8 +15,8 @@ function checkClerk(req, res, next) {
     }
 }
 
+// render mealkits list
 router.get("/list-mealkits", checkClerk, (req, res) => {
-
     mealkitModel.find()
         .exec()
         .then(data => {
@@ -26,15 +25,12 @@ router.get("/list-mealkits", checkClerk, (req, res) => {
             res.render("list-mealkits", {
                 meals,
             });
-        })
-        .catch(err => {
-            console.log(`Error finding meals in the database ... ${err}`);
-            res.redirect("/clerk/list-mealkits");
-        });
+    });
 });
 
+// add mealkits by clerk
 router.post("/add-mealkit", checkClerk, (req, res) => {
-
+    req.body.isTopMeal ? req.body.isTopMeal=true : req.body.isTopMeal=false;
     let newMeal = new mealkitModel({
         title       : req.body.title,
         includes    : req.body.includes,
@@ -43,16 +39,13 @@ router.post("/add-mealkit", checkClerk, (req, res) => {
         price       : req.body.price,
         cookingTime : req.body.cookingTime,
         servings    : req.body.servings,
-        topMeal     : req.body.isTopMeal ? true : false
+        topMeal     : req.body.isTopMeal
     });
 
+    //parse the data and save to mongodb
     newMeal.save()
         .then(mealSaved => {
-            console.log(`Meal: ${mealSaved.title} has been added to the database.`);
-
-            // Create a unique name for the image, so that it can be stord in the file system.
             let uniqueName = `${mealSaved._id}${path.parse(req.files.mealPic.name).ext}`;
-
             // Copy the image data to a file in the "/assets/profile-pics" folder.
             req.files.mealPic.mv(`assets/images/Burgers/${uniqueName}`)
                 .then(() => {
@@ -62,7 +55,6 @@ router.post("/add-mealkit", checkClerk, (req, res) => {
                         imageUrl: uniqueName
                     })
                         .then(() => {
-                            // Success
                             console.log("Updated the meal pic.");
                             res.redirect("/clerk/list-mealkits");
                         })
@@ -82,6 +74,7 @@ router.post("/add-mealkit", checkClerk, (req, res) => {
         });
 });
 
+// edit existing mealkit by clerk
 router.post("/edit-mealkit/:id", checkClerk, (req, res) => {
     let editMealID = parseInt(req.params.id.replace(':',''));    
     mealkitModel.updateOne({
@@ -98,36 +91,27 @@ router.post("/edit-mealkit/:id", checkClerk, (req, res) => {
         }
     })
         .exec()
-    //     .then(() => {
-    //         console.log("Successfully updated the document for: " + req.body.id);
-
-    //     });
-
-    // res.redirect("/clerk/list-mealkits");
         .then(() => {
-            console.log("Successfully updated the document for: " + req.params.id);
-            res.redirect("/clerk/list-mealkits");
-        })
-        .catch(err => {
-            console.log(`Error updating meal in the database ... ${err}`);
-            res.redirect("/clerk/list-mealkits");
+            console.log("Successfully updated the document for: " + req.body.id);
+
         });
+
+    res.redirect("/clerk/list-mealkits");
 });
 
+
+// remove existing mealkit by clerk
 router.get("/remove-mealkit/:id", checkClerk, (req, res) => {
-
-    let deleteMealID = req.params.id;
-
-    mealkitModel.findByIdAndRemove(deleteMealID)
-        .exec()
-        .then(docs => {
+    let deleteMealID = req.params.id.replace(':','');
+    mealkitModel.findByIdAndRemove(deleteMealID, function(err, docs) {
+        if(err) {
+            console.log(err);
+        }
+        else{
             console.log("Removed meal: ", docs);
-            res.redirect("/clerk/list-mealkits");
-        })
-        .catch(err => {
-            console.log(`Error removing meal from the database ... ${err}`);
-            res.redirect("/clerk/list-mealkits");
-        });
+        }
+    });
+    res.redirect("/clerk/list-mealkits");
 });
 
 //load data controller
@@ -135,7 +119,4 @@ const loadDataController = require("../controllers/loadDataController");
 router.use("/load-data/", loadDataController);
 router.use('/load-data', express.static(path.join(__dirname, "../assets")));
 
-
 module.exports = router;
-
-
