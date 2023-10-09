@@ -1,5 +1,5 @@
 
-****BURGERS ORDERING APP **
+**BURGERS ORDERING APP **
 
 This is a Burger Ordering web application.
 It allows logged-in users to browse a selection of meal kits, add them to their
@@ -8,30 +8,23 @@ Express, and MongoDB for the backend, and Express-Handlebars for the views.
 
 **FEATURES: **
 
-l   Users
-can create an account (Sign-Up) and log in.
+Users can create an account (Sign-Up) and log in.
 
-l   Users
-can choose to log in as 'Customer' or 'Clerk'.
+Users can choose to log in as 'Customer' or 'Clerk'.
 
-l   Customer:
+Customer:
 
-n   Customer
-can browse the menu and add burgers to their cart.
+   Customer can browse the menu and add burgers to their cart.
 
-n   Customer
-can place an order and view their order history.
+   Customer can place an order and view their order history.
 
-n   Receipt
-would be send to customer through Email.
+   Receipt would be send to customer through Email.
 
-l   Clerk:
+Clerk:
 
-n   Clerk
-can add / edit / remove the burgers from the menu.
+   Clerk can add / edit / remove the burgers from the menu.
 
-l   After
-log out, session would be destroyed
+After log out, session would be destroyed
 
 **LIVE DEMO (CYCLIC): **
 
@@ -44,24 +37,21 @@ log out, session would be destroyed
 **DEPENDENCIES: **
 
 Dependencies
-/ Library Used:
+Library Used:
 
-l   Express:
+Express:
 
-n   express-handlebars:
-for the web-site view structure.
+   express-handlebars: for the web-site view structure.
 
-n   express-session:
-for the log in session as customer or clerk.
+   express-session: for the log in session as customer or clerk.
 
-n   express-fileupload:
-for clerk to upload the photo of new meals.
+   express-fileupload: for clerk to upload the photo of new meals.
 
-l   MongoDB
-/ Mongoose for the database hosting, modeling and querying.
+   MongoDB
+	Mongoose for the database hosting, modeling and querying.
 
-l   bcrypt:
-for the user's registration / log in
+   bcrypt:
+	for the user's registration / log in
 
-l   sendgrid:
+   sendgrid:
 to send the email receipt to the customer after ordering
