@@ -54,4 +54,4 @@ Express:
 	for the user's registration / log in
 
    sendgrid:
-to send the email receipt to the customer after ordering
+	to send the email receipt to the customer after ordering
