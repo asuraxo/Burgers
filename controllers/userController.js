@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const userModel = require("../models/userModel");
 const mealkitModel = require("../models/meal-kitModel");
+const nodemailer = require("nodemailer");
 
 router.use('/particularMealKit', express.static(path.join(__dirname, "../assets")));
 
@@ -144,58 +145,117 @@ router.get("/remove-meal/:id", checkCustomer, (req, res) => {
     res.redirect("/customer/cart");
 });
   
-router.get("/check-out", checkCustomer, (req, res) => {
+// router.get("/check-out", checkCustomer, (req, res) => {
+//     let cart = req.session.cart || [];
+//     let receipt = prepareViewModel(req);
+
+//     let receiptMsg;
+
+//     if (cart.length > 0) {
+//         cart.forEach((cartItem) => {
+//             receiptMsg += ` ${cartItem.qty} orders of : ${cartItem.meal.title},<br>`;
+//         });
+//     }
+
+//     if (cart.length > 0) {
+  
+//       let message = "Thank you for your purchase. Please Check email for you receipt.";
+  
+//       let user = req.session.user;
+
+//       const sgMail = require("@sendgrid/mail");
+//       sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  
+//       const msg = {
+//         to: user.email, //email
+//         from: "wso8@myseneca.ca",
+//         subject: "Order Receipt",
+//         text: "Order",
+//         html: `
+//             Dear ${user.firstName} ${user.lastName}, <br>
+//             Thank you for your purchase. You ordered:<br>
+//             ${receiptMsg}<br>
+//             total is ${receipt.cartTotal}<br>
+//             `,
+//       };
+  
+//       sgMail
+//         .send(msg)
+//         .then()
+//         .catch((err) => {
+//           console.log(err);
+//         });
+//       req.session.cart = [];
+//       res.render("cart", {
+//         message
+//       });
+//     } else {
+//       // There are no items in the cart.
+//       // redirect to cart page, because if no items in cart, button wont show up
+//       console.log("invalid access");
+//       res.redirect("/customer/cart");
+//     }
+// });
+
+
+router.get("/check-out", checkCustomer, async (req, res) => {
+  try {
     let cart = req.session.cart || [];
     let receipt = prepareViewModel(req);
 
-    let receiptMsg;
+    let receiptMsg = "";
 
     if (cart.length > 0) {
-        cart.forEach((cartItem) => {
-            receiptMsg += ` ${cartItem.qty} orders of : ${cartItem.meal.title},<br>`;
-        });
+      cart.forEach((cartItem) => {
+        receiptMsg += `${cartItem.qty} orders of: ${cartItem.meal.title},\n`;
+      });
     }
 
     if (cart.length > 0) {
-  
-      let message = "Thank you for your purchase. Please Check email for you receipt.";
-  
+      let message = "Thank you for your purchase. Please check your email for your receipt.";
+
       let user = req.session.user;
 
-      const sgMail = require("@sendgrid/mail");
-      sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-  
-      const msg = {
-        to: user.email, //email
-        from: "wso8@myseneca.ca",
+      // Create a Nodemailer transporter (use your own SMTP settings)
+      const transporter = nodemailer.createTransport({
+        service: "Gmail",
+        auth: {
+          user: process.env.GMAIL_USER, // Your email address
+          pass: process.env.GMAIL_APP_PASSWORD, // Your email password
+        },
+      });
+
+      const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: user.email, // User's email
         subject: "Order Receipt",
         text: "Order",
         html: `
-            Dear ${user.firstName} ${user.lastName}, <br>
-            Thank you for your purchase. You ordered:<br>
-            ${receiptMsg}<br>
-            total is ${receipt.cartTotal}<br>
-            `,
+          Dear ${user.firstName} ${user.lastName},<br>
+          Thank you for your purchase. You ordered:<br>
+          ${receiptMsg}<br>
+          Total is ${receipt.cartTotal}<br>
+        `,
       };
-  
-      sgMail
-        .send(msg)
-        .then()
-        .catch((err) => {
-          console.log(err);
-        });
+
+      // Send the email
+      await transporter.sendMail(mailOptions);
+
       req.session.cart = [];
-      res.render("cart", {
-        message
+      return res.render("cart", {
+        message,
       });
     } else {
       // There are no items in the cart.
-      // redirect to cart page, because if no items in cart, button wont show up
-      console.log("invalid access");
-      res.redirect("/customer/cart");
+      // Redirect to the cart page, as the button won't show up.
+      console.log("Invalid access");
+      return res.redirect("/customer/cart");
     }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ success: false, error: "An error occurred." });
+  }
 });
-
 
 
 
